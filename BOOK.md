@@ -22,7 +22,33 @@
 kernel.c
 
 ``` c
-void kernel() {
+extern void asm_hlt();
 
+void kernel() {
+    while(1){
+        asm_hlt();
+    }
 }
+```
+
+arch/x86_64/start.asm
+
+``` fasm
+format ELF64
+
+public main
+public asm_hlt
+
+extrn kernel
+
+asm_hlt:
+    hlt
+
+main:
+    jmp kernel
+
+hlt_kernel:
+    hlt
+    jmp hlt_kernel
+
 ```
