@@ -21,8 +21,8 @@
 
 kernel.c
 
-```
+``` c
 void kernel() {
-    
+
 }
 ```
