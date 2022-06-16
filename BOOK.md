@@ -52,3 +52,23 @@ hlt_kernel:
     jmp hlt_kernel
 
 ```
+
+## Сборка
+<!-- 
+clang -c -O0 --target=x86_64-pc-none-elf -m64 -march=x86-64 -nostdlib -nodefaultlibs -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -o bin/kernel.o src/kernel.c 
+ld -T src/arch/x86_64/link.ld -o kernel.elf bin/kernel.o bin/start.o
+-->
+
+``` shell
+clang -c -O0 --target=x86_64-pc-none-elf -m64 -march=x86-64 -nostdlib -nodefaultlibs -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -o bin/kernel.o src/kernel.c 
+fasm src/arch/x86_64/start.asm bin/start.o
+ld -T src/arch/x86_64/link.ld -o kernel.elf bin/kernel.o bin/start.o
+qemu-system-x86_64 -kernel kernel.elf
+```
+
+``` shell
+fasm src/arch/x86/start.asm bin/start.o
+clang -c -O0 --target=i386-pc-none-elf -m32 -march=i386 -nostdlib -nodefaultlibs -ffreestanding -o bin/kernel.o src/kernel.c 
+ld -T src/arch/x86/link.ld -o kernel.elf bin/kernel.o bin/start.o
+qemu-system-i386 -kernel kernel.elf -d int
+```
